@@ -1,0 +1,143 @@
+ALGORITHM DistinctElements
+VAR
+ T[],T1[],T2[] :INTEGER;
+ i,j,n,m : INTEGER;// n is the length of T1[], m is the length of T2[]
+ sum:=0 : INTEGER;
+BEGIN
+ read(n,m);
+ read(T1[],T2[]);
+ IF ((n:=0) AND (m=0)) THEN write("table is empty");
+   else
+      FOR i FROM 1 TO n STEP 1  DO
+        T[i]:=T1[i];
+      END_FOR
+      FOR i FROM 1 TO m STEP 1  DO
+        T[n+i]:=T2[i];
+      END_FOR
+ END_IF 
+ FOR i FROM 0 TO (n+m-2) STEP 1  DO
+     FOR j FROM i+1 TO (n+m-1) STEP 1  DO
+         WHILE (T[i]<> T[j]) DO
+             i:=i+1;
+             sum:=sum+T[i];
+         END_WHILE
+     END_FOR
+ END_FOR   
+ write("the sum of all distinct elements from the two sets",sum);
+END
+// Second Algoritm
+ALGORITHM overlappingElements
+VAR
+ T[],T1[],T2[] :INTEGER;
+ i,j,n,m : INTEGER;// n is the length of T1[], m is the length of T2[]
+ sum:=0 : INTEGER;
+BEGIN
+ read(n,m);
+ read(T1[],T2[]);
+ IF ((n:=0) AND (m=0)) THEN write("table is empty");
+   else
+      FOR i FROM 1 TO n STEP 1  DO
+        T[i]:=T1[i];
+      END_FOR
+      FOR i FROM 1 TO m STEP 1  DO
+        T[n+i]:=T2[i];
+      END_FOR
+ END_IF 
+ FOR i FROM 0 TO (n+m-2) STEP 1  DO
+    FOR j FROM i+1 TO (n+m-1) STEP 1  DO
+         IF (T[i] <> T[j]) THEN
+             i:=i+1;
+         else  
+             sum:=sum+T[i];
+         END_IF
+     END_FOR
+ END_FOR   
+ write("the sum of all overlapping elements from the two sets",sum);
+END
+// Second method with hashTable
+ALGORITHM SumOverlapping
+VAR
+ setA[],setB[] :INTEGER;
+ i,key, count : INTEGER;
+ sum:=0 : INTEGER;
+ HASH_TABLE<Integer, Integer> map = hashTable<>();
+
+BEGIN
+    
+ FOR i FROM 0 TO setA.length-1 STEP 1  DO
+     
+            int element = setA[i];
+            IF (map.lookup(element)) THEN
+                count = map.get(element);
+                map.insert(element, count+1); 
+            ELSE
+                map.insert(element, 1);
+            END_IF
+ END_FOR
+
+       FOR i FROM 0 TO setB.length-1 STEP 1  DO
+     
+            int element = setB[i];
+            IF (map.lookup(element)) THEN
+                int count = map.get(element);
+                map.insert(element, count+1); 
+            ELSE
+                map.insert(element, 1);
+            END_IF
+ END_FOR
+
+        //get sum of distinct elements
+        FOR i FROM 0 TO map.length-1 STEP 1  DO
+          WHILE (map.lookup(i) = TRUE) DO 
+             count = map.get(i);
+            IF (count==2) THEN
+               sum += key*count;
+            END_IF
+          END_WHILE 
+        END_FOR     
+        write("Sum of overlapping elements: " , sum);
+END
+// Second method with hashTable
+ALGORITHM SumDifferentElements
+VAR
+ setA[],setB[] :INTEGER;
+ i,key, count : INTEGER;
+ sum:=0 : INTEGER;
+ HASH_TABLE<Integer, Integer> map = hashTable<>();
+
+BEGIN
+    
+ FOR i FROM 0 TO setA.length-1 STEP 1  DO
+     
+            int element = setA[i];
+            IF (map.lookup(element)) THEN
+                count = map.get(element);
+                map.insert(element, count+1); 
+            ELSE
+                map.insert(element, 1);
+            END_IF
+ END_FOR
+
+       FOR i FROM 0 TO setB.length-1 STEP 1  DO
+     
+            int element = setB[i];
+            IF (map.lookup(element)) THEN
+                int count = map.get(element);
+                map.insert(element, count+1); 
+            ELSE
+                map.insert(element, 1);
+            END_IF
+ END_FOR
+
+        //get sum of distinct elements
+        FOR i FROM 0 TO map.length-1 STEP 1  DO
+          WHILE (map.lookup(i) = TRUE) DO 
+             count = map.get(i);
+            IF (count==1) THEN
+               sum += i;
+            END_IF
+          END_WHILE 
+        END_FOR     
+        write("Sum of overlapping elements: " , sum);
+END
+
